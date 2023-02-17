@@ -1,6 +1,12 @@
 import React, { useContext, useEffect, useReducer } from 'react'
 
-import { SET_LOADING, SET_STORIES, HANDLE_PAGE, HANDLE_SEARCH } from './actions'
+import {
+  SET_LOADING,
+  SET_STORIES,
+  HANDLE_PAGE,
+  HANDLE_SEARCH,
+  TOGGLE_THEME,
+} from './actions'
 import reducer from './reducer'
 
 const API_ENDPOINT = 'https://hn.algolia.com/api/v1/search?'
@@ -11,6 +17,7 @@ const initialState = {
   query: 'chatgpt',
   page: 0,
   nbPages: 0,
+  theme: 'lightTheme',
 }
 
 const AppContext = React.createContext()
@@ -22,7 +29,6 @@ const AppProvider = ({ children }) => {
     try {
       const res = await fetch(url)
       const data = await res.json()
-      console.log(data)
       dispatch({
         type: SET_STORIES,
         payload: { hits: data.hits, nbPages: data.nbPages },
@@ -40,13 +46,23 @@ const AppProvider = ({ children }) => {
     dispatch({ type: HANDLE_PAGE, payload: value })
   }
 
+  const toggleTheme = (currentTheme) => {
+    dispatch({ type: TOGGLE_THEME, payload: currentTheme })
+  }
+
   useEffect(() => {
     fetchStories(`${API_ENDPOINT}query=${state.query}&page=${state.page}`)
   }, [state.query, state.page])
 
+  useEffect(() => {
+    document.documentElement.className = state.theme
+  }, [state.theme])
+
   return (
     // pass entire state to context
-    <AppContext.Provider value={{ ...state, handleSearch, handlePage }}>
+    <AppContext.Provider
+      value={{ ...state, handleSearch, handlePage, toggleTheme }}
+    >
       {children}
     </AppContext.Provider>
   )

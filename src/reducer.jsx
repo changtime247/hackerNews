@@ -1,4 +1,10 @@
-import { SET_LOADING, SET_STORIES, HANDLE_PAGE, HANDLE_SEARCH } from './actions'
+import {
+  SET_LOADING,
+  SET_STORIES,
+  HANDLE_PAGE,
+  HANDLE_SEARCH,
+  TOGGLE_THEME,
+} from './actions'
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -22,6 +28,12 @@ const reducer = (state, action) => {
         let prevPage = state.page - 1
         prevPage = prevPage < 0 ? state.nbPages - 1 : prevPage
         return { ...state, page: prevPage }
+      }
+    case TOGGLE_THEME:
+      if (action.payload === 'lightTheme') {
+        return { ...state, theme: 'darkTheme' }
+      } else {
+        return { ...state, theme: 'lightTheme' }
       }
     default:
       throw new Error(`No matching action type: ${action.type}`)
