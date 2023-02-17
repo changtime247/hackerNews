@@ -1,12 +1,6 @@
 import React, { useContext, useEffect, useReducer } from 'react'
 
-import {
-  SET_LOADING,
-  SET_STORIES,
-  REMOVE_STORY,
-  HANDLE_PAGE,
-  HANDLE_SEARCH,
-} from './actions'
+import { SET_LOADING, SET_STORIES, HANDLE_PAGE, HANDLE_SEARCH } from './actions'
 import reducer from './reducer'
 
 const API_ENDPOINT = 'https://hn.algolia.com/api/v1/search?'
@@ -42,6 +36,7 @@ const AppProvider = ({ children }) => {
   }, [])
 
   return (
+    // pass entire state to context
     <AppContext.Provider value={{ ...state }}>{children}</AppContext.Provider>
   )
 }

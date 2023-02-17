@@ -287,12 +287,3 @@ Story
   text-transform: capitalize;
   color: var(--clr-primary-5);
 }
-
-.remove-btn {
-  background: transparent;
-  color: var(--clr-red-dark);
-  border-color: transparent;
-  cursor: pointer;
-  text-transform: capitalize;
-  font-size: 0.85rem;
-}
